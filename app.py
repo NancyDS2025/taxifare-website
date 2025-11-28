@@ -2,12 +2,8 @@ import streamlit as st
 import requests
 
 '''
-# MyBeautifulApp
+# MinimalistApp
 '''
-
-st.markdown('''
-Hola chicos
-''')
 
 '''
 ## Data
@@ -18,7 +14,6 @@ pickup_latitude = st.text_input('Pickup latitude', '40.783282')
 dropoff_longitude = st.text_input('Dropoff longitude', '-73.984365')
 dropoff_latitude = st.text_input('Dropoff latitude', '40.769802')
 passenger_count = st.text_input('Passenger count', '1')
-
 
 url = 'https://taxifare.lewagon.ai/predict'
 
@@ -38,7 +33,6 @@ if st.button("Predict"):
         response = requests.get(url, params=my_dict)
         if response.status_code == 200:
             prediction = response.json()["fare"]
-            # --- 4. Affichage ---
             st.success(f"Prediction: **{prediction:.2f} $**")
         else:
             st.error(f"Error API ({response.status_code}) : {response.text}")
