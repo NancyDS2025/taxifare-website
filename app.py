@@ -1,42 +1,46 @@
 import streamlit as st
+import requests
 
 '''
-# TaxiFareModel front
+# MyBeautifulApp
 '''
 
 st.markdown('''
-Hola chicos''')
+Hola chicos
+''')
 
 '''
 ## Data
-
-title = st.text_input('Data and time', 'TO FILL')
-title = st.text_input('Pickup longitude', 'TO FILL')
-title = st.text_input('Pickup latitude', 'TO FILL')
-title = st.text_input('Dropoff longitude', 'TO FILL')
-title = st.text_input('Dropoff latitude', 'TO FILL')
-title = st.text_input('Passenger count', 'TO FILL')
 '''
-## Once we have these, let's call our API in order to retrieve a prediction
+pickup_datetime = st.text_input('Data and time', '2013-07-06 17:18:00')
+pickup_longitude = st.text_input('Pickup longitude', '-73.950655')
+pickup_latitude = st.text_input('Pickup latitude', '40.783282')
+dropoff_longitude = st.text_input('Dropoff longitude', '-73.984365')
+dropoff_latitude = st.text_input('Dropoff latitude', '40.769802')
+passenger_count = st.text_input('Passenger count', '1')
 
-See ? No need to load a `model.joblib` file in this app, we do not even need to know anything about Data Science in order to retrieve a prediction...
-
-🤔 How could we call our API ? Off course... The `requests` package 💡
-'''
 
 url = 'https://taxifare.lewagon.ai/predict'
 
 if url == 'https://taxifare.lewagon.ai/predict':
 
-    st.markdown('Maybe you want to use your own API for the prediction, not the one provided by Le Wagon...')
+    st.markdown('Prediction with Le Wagon API')
 
-'''
+my_dict = {'pickup_datetime': pickup_datetime, 
+           'pickup_longitude': pickup_longitude, 
+           'pickup_latitude': pickup_latitude,
+           'dropoff_longitude': dropoff_longitude,
+           'dropoff_latitude': dropoff_latitude,
+           'passenger_count': passenger_count} 
 
-2. Let's build a dictionary containing the parameters for our API...
-
-3. Let's call our API using the `requests` package...
-
-4. Let's retrieve the prediction from the **JSON** returned by the API...
-
-## Finally, we can display the prediction to the user
-'''
+if st.button("Predict"):
+    try:
+        response = requests.get(url, params=my_dict)
+        if response.status_code == 200:
+            prediction = response.json()["fare"]
+            # --- 4. Affichage ---
+            st.success(f"Prediction: **{prediction:.2f} $**")
+        else:
+            st.error(f"Error API ({response.status_code}) : {response.text}")
+    except Exception as e:
+        st.error(f"Fail call API : {e}")
