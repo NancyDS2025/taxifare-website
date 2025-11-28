@@ -21,7 +21,12 @@ Either as with the title by just creating a string (or an f-string). Or as with 
 - dropoff latitude
 - passenger count
 '''
-
+title = st.text_input('Data and time', 'TO FILL')
+title = st.text_input('Pickup longitude', 'TO FILL')
+title = st.text_input('Pickup latitude', 'TO FILL')
+title = st.text_input('Dropoff longitude', 'TO FILL')
+title = st.text_input('Dropoff latitude', 'TO FILL')
+title = st.text_input('Passenger count', 'TO FILL')
 '''
 ## Once we have these, let's call our API in order to retrieve a prediction
 
